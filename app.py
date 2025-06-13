@@ -25,7 +25,7 @@ if "chat_history" not in st.session_state:
 if "conversation" not in st.session_state:
     
     llm = ChatOpenAI(
-        model_name = "gpt-4omini",
+        model_name = "gpt-4o-mini-2024-07-18",
         temperature = 0.5,
         openai_api_key = os.getenv("OPENAI_API_KEY")
     )
@@ -39,14 +39,14 @@ if "conversation" not in st.session_state:
     )
 
 for message in st.session_state.chat_history:
-    if instance(message.HumanMessage):
+    if isinstanceinstance(message.HumanMessage):
         with st.chat_message("user"):
             st.write(message.content)
     else:
         with st.chat_message("assistant"):
             st.write(message.content)
 
-user_input = st.chat_message_input("How can I help you today?")
+user_input = st.chat_input("How can I help you today?")
 
 if user_input:
 
@@ -70,7 +70,7 @@ with st.sidebar:
         memory = ConversationBufferMemory(return_messages=True)
 
         llm = ChatOpenAI(
-            model_name = "gpt-4omini",
+            model_name = "gpt-4o-mini-2024-07-18",
             temperature = 0.5,
             openai_api_key = os.getenv("OPENAI_API_KEY")
         )
