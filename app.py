@@ -1,14 +1,11 @@
 # Chatbot Application - Takes prompt from user, gives response, then asks for another prompt, etc.
 # It will remember previous chats/coversations and continue the conversation.
 import streamlit as st
-import os
-from dotenv import load_dotenv
 from langchain_community.chat_models import ChatOpenAI
 from langchain.chains import ConversationChain
 from langchain.memory import ConversationBufferMemory
 from langchain_core.messages import HumanMessage, AIMessage
 
-load_dotenv()
 
 st.set_page_config(
     page_title="AI Chatbot",
