@@ -9,4 +9,6 @@
 
  Hosted on streamlit cloud deployment. Try my app!
 
+ **CTRL/CMND + Click** to open in new tab
+
  https://ammarschatbot.streamlit.app/
