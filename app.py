@@ -24,3 +24,76 @@ if "chat_history" not in st.session_state:
 
 if "conversation" not in st.session_state:
     
+    llm = ChatOpenAI(
+        model_name = "gpt-4omini",
+        temperature = 0.5,
+        openai_api_key = os.getenv("OPENAI_API_KEY")
+    )
+
+    memory = ConversationBufferMemory(return_messages=True)
+
+    st.session_state.conversation = ConversatuonChain(
+        llm = llm,
+        memory = memory,
+        verbose = False
+    )
+
+for message in st.session_state.chat_history:
+    if instance(message.HumanMessage):
+        with st.chat_message("user"):
+            st.write(message.content)
+    else:
+        with st.chat_message("assistant"):
+            st.write(message.content)
+
+user_input = st.chat_message_input("How can I help you today?")
+
+if user_input:
+
+    st.session_state.chat_history.append(HumanMessage(content = user_input))
+
+    with st.chat_message("user"):
+        st.write(user_input)
+    
+    with st.chat_message("assistant"):
+        response = st.session_state.conversation.predict(input = user_input)
+        st.write(response)
+
+    st.session_state.chat_history.append(AIMessage(content = response))
+
+with st.sidebar:
+    st.title("Options")
+
+    if st.button("Clear Chat History"):
+        st.session_state.chat_history = []
+    
+        memory = ConversationBufferMemory(return_messages=True)
+
+        llm = ChatOpenAI(
+            model_name = "gpt-4omini",
+            temperature = 0.5,
+            openai_api_key = os.getenv("OPENAI_API_KEY")
+        )
+
+        st.session_state.conversation = ConversationChain(
+            llm = llm,
+            memory = memory,
+            verbose = False
+        )
+
+        st.rerun()
+    
+    st.subheader("About")
+
+    st.markdown(
+        """
+        An **AI chatbot** that remembers previous conversations 
+        
+        Built using: 
+        
+        - **LangChain** for web interface
+        - **Streamlit** for conversation management
+        - **GPT-4o-mini** as the language model
+        - **Conversation Buffer Memory** to keep track of previous conversations
+        """
+    )
