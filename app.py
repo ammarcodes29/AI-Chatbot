@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 from langchain.chat_models import ChatOpenAI
 from langchain.chains import ConversationChain
 from langchain.memory import ConversationBufferMemory
-from langchain.schemas import HumanMessage, AIMessage
+from langchain_core.messages import HumanMessage, AIMessage
 
 load_dotenv()
 
@@ -32,7 +32,7 @@ if "conversation" not in st.session_state:
 
     memory = ConversationBufferMemory(return_messages=True)
 
-    st.session_state.conversation = ConversatuonChain(
+    st.session_state.conversation = ConversationChain(
         llm = llm,
         memory = memory,
         verbose = False
