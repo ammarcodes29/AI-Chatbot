@@ -6,21 +6,23 @@ from langchain.chains import ConversationChain
 from langchain.memory import ConversationBufferMemory
 from langchain_core.messages import HumanMessage, AIMessage
 
-
+# setup streamlit page configuration
 st.set_page_config(
     page_title="AI Chatbot",
     page_icon=":robot_face:",
     layout="centered"
 )
 
+# this displays chatbot title & subtitle
 st.title("AI Chatbot")
 st.subheader("Built using LangChain, Streamlit, and GPT-4o-mini")
 
+# initialize chat history & conversation chain if DNE
 if "chat_history" not in st.session_state:
     st.session_state["chat_history"] = []
 
 if "conversation" not in st.session_state:
-    
+    # set up language model and conversation chain
     llm = ChatOpenAI(
         model_name = "gpt-4o-mini-2024-07-18",
         temperature = 0.5,
@@ -29,17 +31,21 @@ if "conversation" not in st.session_state:
 
     memory = ConversationBufferMemory(return_messages=True)
 
+    # create CoversationChain with language model and memory
     st.session_state.conversation = ConversationChain(
         llm = llm,
         memory = memory,
         verbose = False
     )
 
+# display chat history
 for message in st.session_state.chat_history:
     if isinstance(message, HumanMessage):
-        with st.chat_message("user"):
+        with st.chat_message("user"): # display user message
             st.write(message.content)
-    else:
+
+    else: 
+        # display assistant message
         with st.chat_message("assistant"):
             st.write(message.content)
 
@@ -47,6 +53,7 @@ user_input = st.chat_input("How can I help you today?")
 
 if user_input:
 
+    # this adds user inpiut to chat history
     st.session_state.chat_history.append(HumanMessage(content = user_input))
 
     with st.chat_message("user"):
