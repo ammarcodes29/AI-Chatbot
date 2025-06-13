@@ -39,7 +39,7 @@ if "conversation" not in st.session_state:
     )
 
 for message in st.session_state.chat_history:
-    if isinstanceinstance(message.HumanMessage):
+    if isinstance(message.HumanMessage):
         with st.chat_message("user"):
             st.write(message.content)
     else:
